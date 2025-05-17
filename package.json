@@ -22,7 +22,9 @@
       "require": "./dist/index.cjs"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "prebuild": "npm run clean",
     "build": "tsup src/index.ts --dts --format esm,cjs",
@@ -44,7 +46,7 @@
     "vitest": "^3.1.2"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "^3.29.0"
+    "@rollup/rollup-linux-x64-gnu": "^4.40.2"
   },
   "keywords": [
     "typescript",
