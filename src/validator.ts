@@ -411,17 +411,28 @@ function validate(
   }
 }
 
-function normalizeInput(input: unknown) {
+const entries = (input: object | FormData | URLSearchParams) => {
   if (input instanceof FormData || input instanceof URLSearchParams) {
-    const source = {};
-    for (const key of input.keys()) {
-      const value = input.getAll(key);
-      const path = key.replace(/\[\s*(\d+)\s*\]/g, ".$1"); // foo[0] => foo.0
-      dset(source, path, value);
-    }
-    return source;
+    const keys = Array.from(new Set(input.keys())); // unique keys
+    return keys.map((key) => [key, input.getAll(key)] as const); // ?hobbies=reading&hobbies=coding
   }
-  return input;
+  return Object.entries(input);
+};
+
+function normalizeInput(input: unknown) {
+  if (
+    !isObject(input) &&
+    !(input instanceof FormData) &&
+    !(input instanceof URLSearchParams)
+  ) {
+    return input;
+  }
+  const source = {};
+  for (const [key, value] of entries(input)) {
+    const path = key.replace(/\[\s*(\d+)\s*\]/g, ".$1"); // foo[0] => foo.0
+    dset(source, path, value);
+  }
+  return source;
 }
 
 function isValidInput<S extends Schema>(

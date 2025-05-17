@@ -127,6 +127,29 @@ test("validate url search params", () => {
   expect(errors).toEqual({});
 });
 
+test("validate object with encoded keys (hono/validator)", () => {
+  const { aka, ...rest } = input;
+
+  const encodedObject = {
+    ...input,
+    object: undefined,
+    array: undefined,
+    aka: "jdoe",
+    "array[0]": "a",
+    "array[1]": "b",
+    "array[2]": "c",
+    "object.a": 1,
+    "object.b.c": "c",
+    "object.b.d[0].e": "e",
+  };
+
+  const { success, data, errors } = validate(encodedObject);
+
+  expect(success).toBe(true);
+  expect(data).toStrictEqual({ ...rest, optional: undefined, alias: "jdoe" });
+  expect(errors).toEqual({});
+});
+
 test("validate with runtime context", () => {
   const { success, data, errors } = validateWithCtx(input, {
     allowedStrings: ["foo", "bar"],
