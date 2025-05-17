@@ -319,11 +319,12 @@ test("form helper", () => {
   expect(f.boolean.errors).toEqual(["Expected 'boolean', received 'b'"]);
 
   expect(f.object.b.d.path).toBe("object.b.d");
-  expect(f.object.b.d.errors).toEqual({});
+  expect(f.object.b.d.errors).toEqual([]);
   expect(f.object.b.d.length).toBe(2);
 
   const b = f.object.b;
   let index = -1;
+  // test array iterator
   for (const item of b.d) {
     ++index;
     if (index === 0) {
@@ -331,7 +332,7 @@ test("form helper", () => {
       expect(item.errors).toEqual(["D is required"]);
     } else {
       expect(item.path).toBe("object.b.d[1]");
-      expect(item.errors).toEqual({});
+      expect(item.errors).toEqual([]);
       expect(item.e.path).toBe("object.b.d[1].e");
       expect(item.e.errors).toEqual(["E is required"]);
     }

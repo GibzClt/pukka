@@ -7,8 +7,10 @@
 
 ## ✨ Why pukka?
 
-| Packs | Power |
-|---------|-------------|
+Because a validation library should check your data, not your patience!
+
+| Pukka | Power |
+|:---------|:-------------|
 | 🪄 **Simple** | Write schemas as plain objects |
 | 🎯 **Type Safe** | Full type inference |
 | 🧘 **Minimal** | Just 5 functions, that's it! |
@@ -74,7 +76,7 @@ if (success) {
   console.log(data.address.street)
 } else {
   console.log(errors)
-  console.log(data.address?.street) // Street address (if it was entered)
+  console.log(data.address?.street) // street address, if entered
 }
 ```
 

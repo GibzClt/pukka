@@ -104,7 +104,7 @@ function proxy(input: unknown, errors?: Errors) {
       }
       // formHelper.errors
       if (prop === "errors") {
-        return errors[target.path]?.errors ?? {};
+        return errors[target.path]?.errors ?? [];
       }
       const path = makePath(target.path, prop);
       const value =
