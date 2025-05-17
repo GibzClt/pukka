@@ -94,7 +94,7 @@ type MyContext = {
 
 const validate = validator.for(
   schema,
-  usingContext<MyContext>(), // 🌟 Validator needs this context
+  usingContext<MyContext>(), // 🌟 validator needs this context
   (data, issues, ctx) => {
     const state = ctx.states.find((code) => code === data.state)
     if(!state?.cities.includes(data.city)) {
