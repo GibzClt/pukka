@@ -32,7 +32,7 @@ const FALSE = ["false", "0", 0];
 const DEFAULT_ARRAY_LIMIT = 50;
 
 /**
- * Creates a type-safe schema for validation
+ * Define a type-safe schema for validation
  *
  * @example
  * ```typescript
@@ -49,18 +49,14 @@ const DEFAULT_ARRAY_LIMIT = 50;
  *   },
  * })
  * ```
- *
- * @param schema - Plain object describing schema
- * @returns The schema object to be used for validation
  */
 export const object = <S extends Schema>(schema: S): S => schema;
 
 /**
  * Runtime context to be used during validation
- *
  * @example
  * ```typescript
- * // define your context type
+ * // define runtime context
  * type MyContext = {
  *   states: {
  *     code: string
@@ -86,33 +82,31 @@ export const usingContext = <C extends Context>(): ContextMarker<C> => ({
 
 export const validator = {
   /**
-   * Returns a validator function for the given schema
+   * Returns a validator for the given schema
    *
    * @example
-   *
-   * Basic usage:
    * ```typescript
    * const schema = object({
    *   name: "string",
    *   age: "number",
-   *   "email?": "string", // optional field
-   *   "username:uname": "string", // field with alias
-   *   hobbies: ["string"], // array
-   *   address: { // nested object
-   *     street: "string",
+   *   address: {
    *     city: "string",
    *     state: "string"
    *   }
    * })
    *
-   * const validate = validator.for(schema)
+   * // validate
+   *
+   * const validate = validator.for(schema, (data, issues) => {
+   *   if(data.age < 18) {
+   *     issues.age.push('Age must be at least 18')
+   *   }
+   * }
    *
    * const { success, data, errors } = validate(input)
-   * ```
    *
-   * With runtime context:
+   * // or validate with runtime context
    *
-   * ```typescript
    * type MyContext = {
    *   states: {
    *     code: string
@@ -122,7 +116,7 @@ export const validator = {
    *
    * const validate = validator.for(
    *   schema,
-   *   usingContext<MyContext>(), // Provide context type
+   *   usingContext<MyContext>(), // provide context type
    *   (data, issues, ctx) => {
    *     const state = ctx.states.find(s => s.code === data.state)
    *     if (!state?.cities.includes(data.city)) {
@@ -134,21 +128,17 @@ export const validator = {
    * const result = validate(input, {
    *   states: [{ code: 'CA', cities: ['San Francisco', 'Los Angeles'] }]
    * })
-   * ```
    *
-   * i18n support
+   * // strongly typed keys for localization
    *
-   * ```typescript
    * const validate = validator.for(schema, (data, issues) => {
-   *  issues.address.street.push(key => i18nLib.t(key))) // key is 'address.street'
+   *  issues.address.street.push(key => i18n.t(key))) // key is 'address.street'
    * })
-   * ```
    *
-   * Error message and array limit can be customized
+   * // customize array limit and default messages
    *
-   *```typescript
    * validate(input, {
-   *   arrayLimit: 20, // Set array limit
+   *   arrayLimit: 20,
    *   errorMessage: (key, error) => {
    *     if (error.code === 'required') {
    *      return `${key} is required`
