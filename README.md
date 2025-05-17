@@ -9,7 +9,7 @@
 
 Because a validation library should check your data, not your patience!
 
-| Pukka | Power |
+| ✅ Pukka | Power |
 |:---------|:-------------|
 | 🪄 **Simple** | Write schemas as plain objects |
 | 🎯 **Type Safe** | Full type inference |
