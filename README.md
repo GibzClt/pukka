@@ -7,14 +7,14 @@
 
 ## ✨ Why pukka?
 
-🪄 **Simple**: Write schemas as plain objects  
-🎯 **Type Safe**: Full type inference  
-🪶 **Minimal API**: Tiny footprint - almost nothing new to learn  
-🔧 **Custom Validation**: Validate away, your way!  
-📝 **Web Standards**: Comes with FormData and URLSearchParams support out of the box  
-🛠️ **HTML Form Helper**: Render forms with ease, and it works great for Remix and react-router apps  
-🔄 **Smart Types**: Automatic coercion of strings to numbers, booleans and more  
-🌍 **i18n Ready**: Strongly typed message keys for issues
+- 🪄 **Simple**: Write schemas as plain objects
+- 🎯 **Type Safe**: Full type inference
+- 🪶 **Minimal API**: Tiny footprint - almost nothing new to learn
+- 🔧 **Custom Validation**: Validate away, your way
+- 📝 **Web Standards**: FormData and URLSearchParams supported out of the box
+- 🛠️ **HTML Form Helper**: Render forms with ease, works great with Remix, react-router and Hono apps
+- 🔄 **Smart Types**: Automatic coercion of strings to numbers, booleans and more
+- 🌍 **i18n Ready**: Strongly typed message keys for internationalization
 
 ## 📦 Installation
 
@@ -24,7 +24,7 @@ npm install pukka
 
 ## 🚀 Basic Usage
 
-Just define your schema as a plain object
+Define your schema as a plain object, and add validations
 
 ```ts
 import { object, validator } from 'pukka'
@@ -44,7 +44,11 @@ const schema = object({
 })
 
 // Create validator
-const validate = validator.for(schema)
+const validate = validator.for(schema, (data, issues) => {
+  if (data.age < 18) {
+    issues.age.push("Must be 18 or older");
+  }
+});
 
 // Validate 
 const { success, data, errors } = validate({
@@ -68,20 +72,6 @@ if (result.success) {
   console.log(result.errors)
   console.log(result.data.address?.street) // Street address (if it was entered)
 }
-```
-
-## 🔧 Custom Validation
-
-Just pass your custom validation function when creating the validator
-
-```ts
-import { object, validator } from 'pukka'
-
-const validate = validator.for(schema, (data, issues) => {
-  if (data.age < 18) {
-    issues.age.push("Must be 18 or older");
-  }
-});
 ```
 
 ## ⚡ Validation with runtime context
