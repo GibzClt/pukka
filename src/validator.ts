@@ -39,6 +39,7 @@ const DEFAULT_ARRAY_LIMIT = 50;
  * const schema = object({
  *   name: "string",
  *   age: "number",
+ *   "email?": "string" // optional field
  *   "username:un": "string", // field with alias
  *   hobbies: ["string"], // array
  *   address: { // nested object
@@ -46,7 +47,6 @@ const DEFAULT_ARRAY_LIMIT = 50;
  *     city: "string",
  *     state: "string"
  *   },
- *   "email?": "string" // optional field
  * })
  * ```
  *
@@ -95,9 +95,10 @@ export const validator = {
    * const schema = object({
    *   name: "string",
    *   age: "number",
-   *   "email?": "string", // Optional field
-   *   hobbies: ["string"], // Array
-   *   address: { // Nested object
+   *   "email?": "string", // optional field
+   *   "username:uname": "string", // field with alias
+   *   hobbies: ["string"], // array
+   *   address: { // nested object
    *     street: "string",
    *     city: "string",
    *     state: "string"

@@ -15,6 +15,7 @@
 - 🛠️ **HTML Form Helper**: Render forms with ease, works great with Remix, react-router and Hono apps
 - 🔄 **Smart Types**: Automatic coercion of strings to numbers, booleans and more
 - 🌍 **i18n Ready**: Strongly typed message keys for internationalization
+- 🛡️ **Reliable**: 100% code coverage, see [index.test.ts](./src/index.test.ts)
 
 ## 📦 Installation
 
