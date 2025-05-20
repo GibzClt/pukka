@@ -359,7 +359,7 @@ function validate(
 
   if (!isArray(type) && !isObject(type)) {
     target[key] = value;
-    safeTarget[key] = defaultValue(property);
+    safeTarget[key] = value ?? defaultValue(property);
     return;
   }
 

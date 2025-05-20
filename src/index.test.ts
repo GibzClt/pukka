@@ -150,7 +150,7 @@ test("validate object with encoded keys (hono/validator)", () => {
   expect(errors).toEqual({});
 });
 
-test("validate with runtime context", () => {
+test("validate error case with runtime context", () => {
   const { success, data, errors } = validateWithCtx(input, {
     allowedStrings: ["foo", "bar"],
   });
@@ -162,6 +162,18 @@ test("validate with runtime context", () => {
   expect(errors).toEqual({
     string: { value: "string", errors: ["Expecting one of foo,bar"] },
   });
+});
+
+test("validate success case with runtime context", () => {
+  const { success, data, errors } = validateWithCtx(input, {
+    allowedStrings: ["string"],
+  });
+
+  const { aka, ...rest } = input;
+
+  expect(success).toBe(true);
+  expect(data).toStrictEqual({ ...rest, optional: undefined, alias: "jdoe" });
+  expect(errors).toEqual({});
 });
 
 test("data type on success matches schema", () => {
@@ -534,7 +546,7 @@ test.each([
   [null, "null"],
   [undefined, "undefined"],
   [[], "array"],
-  [new (class Foo {})(), "Foo"],
+  [new (class Foo { })(), "Foo"],
 ])("validate with bad source (%o)", (input, received) => {
   const { success, errors } = validate(input);
   expect(success).toBe(false);
