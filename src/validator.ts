@@ -358,8 +358,7 @@ function validate(
   }
 
   if (!isArray(type) && !isObject(type)) {
-    target[key] = value;
-    safeTarget[key] = value ?? defaultValue(property);
+    target[key] = safeTarget[key] = value;
     return;
   }
 
@@ -475,7 +474,7 @@ function schemaValidator<S extends Schema, C extends Context>(
       if (isValidInput(input, errors, ctx)) {
         validate("", root, input, data, safeData, ctx, errors);
         if (callback) {
-          const issues = createIssues<S>(input, errors);
+          const issues = createIssues<S>(data, errors);
           callback(safeData, issues, ctx);
         }
       }

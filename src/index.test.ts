@@ -315,6 +315,17 @@ describe("errors", () => {
     });
   });
 
+  test("aliased field error value (#3)", () => {
+    const validate = validator.for(schema, (data, issues) => {
+      issues.alias.push("alias error");
+    });
+
+    const { errors } = validate({ ...input, aka: "jdoe", extra: true });
+
+    expect(errors.alias?.value).toEqual("jdoe");
+    expect(errors.alias?.errors).toEqual(["alias error"]);
+  });
+
   test("can override errors", () => {
     const { errors } = validate(
       { ...invalid, extra: true },
@@ -546,7 +557,7 @@ test.each([
   [null, "null"],
   [undefined, "undefined"],
   [[], "array"],
-  [new (class Foo { })(), "Foo"],
+  [new (class Foo {})(), "Foo"],
 ])("validate with bad source (%o)", (input, received) => {
   const { success, errors } = validate(input);
   expect(success).toBe(false);
